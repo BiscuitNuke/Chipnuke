@@ -20,7 +20,7 @@ useEffect(() => {
       </Head>
         <Navbar /> 
         <Component {...pageProps} />
-        <Footer />
+        {/* <Footer /> */}
     </div> 
   ); 
 }

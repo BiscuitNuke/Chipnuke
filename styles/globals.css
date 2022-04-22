@@ -4,6 +4,7 @@ body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, Segoe UI, Roboto, Oxygen,
     Ubuntu, Cantarell, Fira Sans, Droid Sans, Helvetica Neue, sans-serif;
+    color: black;
 }
 
 a {
@@ -20,12 +21,32 @@ a {
     --gray: #486677;
     --red: #ED2A24;
     --black: #000000;
+    --darkblue: #001021;
+    --lightblue: #034748;
+    --blue: #1481ba;
+    --battlegray: #848c8e;
+    --white: #ffffff;
+    --lighteraqua: #41ead4;
+    --lighterblue: #0caadc;
+    --teal: #c7e8f3;
+    --nucleargreen: #84C318;
 }
+
+
+body {
+    background: linear-gradient(50deg, var(--darkblue), var(--lightblue), var(--blue));
+    background-size: 400% 400%;
+    -webkit-animation: gradtext 90s ease infinite;
+    -moz-animation: gradtext 90s ease infinite;
+    -o-animation: gradtext 90s ease infinite;
+    animation: gradtext 90s ease infinite;
+   }
 
 html, body, #__next, .vp-container {
     width: 100vw; 
     height: 100vh; 
     overflow-x: hidden; 
+    color:white;
 }
 
 body {
@@ -35,10 +56,11 @@ body {
 .vp-container {
     background: white; 
     color: black; 
+    color:white;
 }
 
 #navlist {
-    font-size: 0.9em; 
+    font-size: 1em; 
     font-weight: 500; 
     transition: color 0.5s ease; 
 }
@@ -74,25 +96,24 @@ body {
     -webkit-text-fill-color: transparent; 
 }
 #gradtext {
-    background: linear-gradient(50deg, var(--red), var(--orange), var(--black));
+    background: linear-gradient(50deg, var(--nucleargreen), var(--battlegray), var(--orange));
     background-size: 400% 400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
-    -webkit-animation: gradtext 5s ease infinite;
-    -moz-animation: gradtext 5s ease infinite;
-    -o-animation: gradtext 5s ease infinite;
-    animation: gradtext 5s ease infinite;
+    -webkit-animation: gradtext 15s ease infinite;
+    -moz-animation: gradtext 15s ease infinite;
+    -o-animation: gradtext 15s ease infinite;
+    animation: gradtext 15s ease infinite;
 }
-
 #headtext {
-    background: linear-gradient(to right, var(--red), var(--orange), var(--black));
+    background: linear-gradient(50deg, var(--orange), var(--nucleargreen), var(--battlegray));
     background-size: 400% 400%;
     -webkit-background-clip: text;
     -webkit-text-fill-color: transparent; 
-    -webkit-animation: gradtext 10s ease infinite;
-    -moz-animation: gradtext 10s ease infinite;
-    -o-animation: gradtext 10s ease infinite;
-    animation: gradtext 10s ease infinite;
+    -webkit-animation: gradtext 20s ease infinite;
+    -moz-animation: gradtext 20s ease infinite;
+    -o-animation: gradtext 20s ease infinite;
+    animation: gradtext 20s ease infinite;
 }
 @-webkit-keyframes gradtext {
     0%{background-position:0% 50%}
@@ -114,28 +135,7 @@ body {
     50%{background-position:100% 50%}
     100%{background-position:0% 50%}
 }
- 
-.team-card {
-    max-width: 250px;
-    padding: 1rem;
-    position: relative;
-    background: linear-gradient(45deg, black, transparent, transparent, transparent, transparent, transparent, black);
-    padding: 3px;
-}
-
-.team-card div {
-    text-align: center; 
-    background: white; 
-    padding: 2rem;
-}
-
-.team-card img {
-    margin-bottom: 10px; 
-    width: 50px; 
-    height: 50px; 
-    border-radius: 100%; 
-}
 
 .homepage-head {
-    background: url('../public/brand_pkg/SVG/Chip.svg') no-repeat bottom -250px right -225px; 
+    background: url('../public/brand_pkg/SVG/nuclear.svg') no-repeat bottom -250px right -225px; 
 }

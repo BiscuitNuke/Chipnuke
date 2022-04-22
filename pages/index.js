@@ -8,25 +8,15 @@ export default function Home() {
         <main className="d-flex flex-column justify-content-around align-items-center">
             <Head>
                 <title>Nullify.one - Homepage</title>
-                <meta
-                name="Nullify.one - Homepage"
-                content="Welcome to Nullify.one! Our team is working to eliminate complicated network security, one computational intelligence at a time."
-                />
             </Head>
             <div className="d-flex flex-column justify-content-center align-items-center homepage-head" style={{ width: '100vw', height: '100vh' }}> 
                 <div className="container">
-                    <h1 className="px-5 mb-3" style={{fontWeight: 250}}>Welcome to <span id="headtext" style={{ fontWeight: 650 }}>Nullify.one!</span></h1>
-                    <p className="px-5 mb-3 text-muted lead"  style={{fontWeight: 200, width: "60%"}}>Our team is working to <span id="gradtext" style={{ fontWeight: 650 }}>eliminate complicated network security, one computational intelligence at a time.</span></p>
+                    <h1 className="px-5 mb-3" style={{fontWeight: 250}}>Welcome to <span id="headtext" style={{ fontWeight: 650 }}>Chipnuke.com!</span></h1>
+                    <p className="px-5 mb-3 text-light lead"  style={{fontWeight: 200, width: "60%"}}>This site is used for <span id="gradtext" style={{ fontWeight: 650 }}>personal projects and general information.</span></p>
                 </div> 
             </div> 
-
-            <div className="container p-5">
-                <p className="h2 mb-4">Click on the navigation bars to look at other pages! Some might be incomplete!</p> 
-                <hr />
-                <p>
-                    Made by Kieran Wittstruck, Nick Ash, and Cayden Walsh
-                </p> 
-            </div>
+            {/* <div className="container p-5">
+            </div> */}
         </main> 
   ); 
 }
