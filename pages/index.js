@@ -7,7 +7,7 @@ export default function Home() {
   return ( 
         <main className="d-flex flex-column justify-content-around align-items-center">
             <Head>
-                <title>Nullify.one - Homepage</title>
+                <title>Chipnuke.com -- Homepage</title>
             </Head>
             <div className="d-flex flex-column justify-content-center align-items-center homepage-head" style={{ width: '100vw', height: '100vh' }}> 
                 <div className="container">
