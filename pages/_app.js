@@ -13,10 +13,10 @@ useEffect(() => {
   return (
     <div>
       <head>
-        <meta name="description" content="Welcome to Nullify.one! Our team is working to eliminate complicated network security, one computational intelligence at a time." />
+        <meta name="description" content="Hello! Welcome to Chipnuke.com! This is a portfolio and information site, so be sure to drop by and check stuff out!" />
       </head>
       <Head>
-        <meta property="og:image" content="/brand_pkg/PNG/N1.png" />
+        <meta property="og:image" content="/brand_pkg/PNG/Chipnuke.png" />
       </Head>
         <Navbar /> 
         <Component {...pageProps} />
