@@ -38,6 +38,7 @@ services:
       retries: 3
     environment:
       GUESTBOOK_WEBHOOK: "${CHIPNUKE_GUESTBOOK_WEBHOOK:-}"
+      ADMIN_TOKEN: "${CHIPNUKE_ADMIN_TOKEN:-}"
       IP_SALT: "${CHIPNUKE_IP_SALT:-}"
     volumes:
       - data:/data

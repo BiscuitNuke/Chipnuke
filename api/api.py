@@ -3,12 +3,16 @@
 
 nginx proxies /api/* here. The database lives in /data (a volume).
 
+Moderation API (for HamBot): /api/admin/*, needs ADMIN_TOKEN as a Bearer token.
+nginx refuses /api/admin/ for requests that came through the gateway.
+
 Admin commands (run inside the api container):
   python3 /api/api.py list            show pending entries
   python3 /api/api.py approve <id>    publish an entry
   python3 /api/api.py reject <id>     delete an entry
 """
 import hashlib
+import hmac
 import json
 import os
 import sqlite3
@@ -24,6 +28,7 @@ PORT = int(os.environ.get("PORT", "8081"))
 WEBHOOK = os.environ.get("GUESTBOOK_WEBHOOK", "").strip()
 SALT = os.environ.get("IP_SALT", "") or "chipnuke"
 CONTAINER = os.environ.get("API_CONTAINER", "chipnuke-api-1")  # shown in Discord commands
+ADMIN_TOKEN = os.environ.get("ADMIN_TOKEN", "").strip()  # empty = moderation API off
 MAX_BODY = 4096
 RATE_LIMIT = 3          # guestbook posts per address
 RATE_WINDOW = 3600      # seconds
@@ -110,7 +115,46 @@ class Handler(BaseHTTPRequestHandler):
         except ValueError:
             return None
 
+    def authorized(self):
+        got = self.headers.get("Authorization", "")
+        return bool(ADMIN_TOKEN) and hmac.compare_digest(got.encode(), f"Bearer {ADMIN_TOKEN}".encode())
+
+    def admin_api(self, method):
+        """GET /api/admin/pending?after=N, POST /api/admin/entries/<id>/(approve|reject)."""
+        if not ADMIN_TOKEN:
+            return self.send(404, {"error": "Not found."})
+        if not self.authorized():
+            return self.send(401, {"error": "Bad or missing token."})
+        path, _, query = self.path.partition("?")
+        parts = path.strip("/").split("/")  # api admin ...
+        if method == "GET" and parts[2:] == ["pending"]:
+            after = 0
+            for pair in query.split("&"):
+                k, _, v = pair.partition("=")
+                if k == "after" and v.isdigit():
+                    after = int(v)
+            with db() as con:
+                rows = con.execute("SELECT id, name, message, website, created FROM guestbook "
+                                   "WHERE approved = 0 AND id > ? ORDER BY id LIMIT 50", (after,)).fetchall()
+            return self.send(200, {"entries": [dict(r) for r in rows]})
+        if method == "POST" and len(parts) == 5 and parts[2] == "entries" and parts[3].isdigit() \
+                and parts[4] in ("approve", "reject"):
+            entry_id, action = int(parts[3]), parts[4]
+            with lock, db() as con:
+                row = con.execute("SELECT id, name, approved FROM guestbook WHERE id = ?", (entry_id,)).fetchone()
+                if not row:
+                    return self.send(404, {"error": f"No entry #{entry_id}. It was rejected or never existed."})
+                if action == "approve":
+                    con.execute("UPDATE guestbook SET approved = 1 WHERE id = ?", (entry_id,))
+                else:
+                    con.execute("DELETE FROM guestbook WHERE id = ?", (entry_id,))
+            return self.send(200, {"ok": True, "id": entry_id, "name": row["name"], "action": action,
+                                   "was_approved": bool(row["approved"])})
+        return self.send(404, {"error": "Not found."})
+
     def do_GET(self):
+        if self.path.startswith("/api/admin/"):
+            return self.admin_api("GET")
         if self.path == "/api/healthz":
             return self.send(200, {"ok": True})
         if self.path == "/api/hits":
@@ -123,6 +167,8 @@ class Handler(BaseHTTPRequestHandler):
         self.send(404, {"error": "Not found."})
 
     def do_POST(self):
+        if self.path.startswith("/api/admin/"):
+            return self.admin_api("POST")
         if self.path == "/api/hits":
             who, day = self.who(), time.strftime("%Y-%m-%d")
             with lock, db() as con:
