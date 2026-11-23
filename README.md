@@ -57,7 +57,7 @@ The flow is the same as KSWU:
 | `CHIPNUKE_IP_SALT` | A random string. The api hashes visitor addresses with it. The api keeps no raw addresses. |
 
 4. Let only the Caddy gateway reach the published port.
-5. Set the domain in `lib/site.ts` and in `deploy/Caddyfile.snippet`. Add the snippet to the gateway, set `CHIPNUKE_UPSTREAM`, and point DNS at the gateway.
+5. Add `deploy/Caddyfile.snippet` to the gateway and set `CHIPNUKE_UPSTREAM`. Point DNS for `chipnuke.com` and `www.chipnuke.com` at the gateway. The domain is also set in `lib/site.ts`.
 
 ## Guestbook moderation
 
