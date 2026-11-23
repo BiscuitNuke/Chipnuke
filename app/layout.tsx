@@ -16,7 +16,7 @@ export const metadata: Metadata = {
     icons: { icon: "/brand/favicon-32.png", apple: "/brand/apple-touch-icon.png" },
 };
 
-export const viewport: Viewport = { themeColor: "#0e3b26", width: "device-width", initialScale: 1 };
+export const viewport: Viewport = { themeColor: "#e8ebef", width: "device-width", initialScale: 1 };
 
 const nav = [
     { href: "/", label: "home" },
@@ -29,14 +29,14 @@ const nav = [
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
     return (
-        <html lang="en" data-skin="mask" suppressHydrationWarning>
+        <html lang="en" data-skin="wafer" suppressHydrationWarning>
             <head><SkinScript /></head>
             <body>
                 <a className="skip" href="#main">Skip to content</a>
                 <div className="board">
                     <header className="masthead">
                         <Link href="/" className="lockup" aria-label="chipnuke home">
-                            <img src="/brand/mark.svg" alt="" width={96} height={96} className="mark" />
+                            <span className="wafer" aria-hidden="true"><img src="/brand/mark.svg" alt="" width={92} height={92} className="mark" /></span>
                             <span className="wordmark">chip<b>nuke</b></span>
                         </Link>
                         <p className="tag">builds, breaks, prints, and car stuff. best viewed at 1024x768.</p>
@@ -45,8 +45,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 
                     <div className="ticker" aria-hidden="true">
                         <div className="ticker-run">
-                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the red button</span>
-                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the red button</span>
+                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the orange button</span>
+                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the orange button</span>
                         </div>
                     </div>
 

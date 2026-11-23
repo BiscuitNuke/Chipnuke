@@ -3,22 +3,22 @@ import { useEffect, useState } from "react";
 import gsap from "gsap";
 
 const SKINS = [
-    { id: "mask", label: "green mask" },
-    { id: "purple", label: "purple mask" },
-    { id: "matte", label: "matte black" },
+    { id: "wafer", label: "cleanroom" },
+    { id: "fab", label: "fab at night" },
+    { id: "kapton", label: "kapton tape" },
 ] as const;
 
 const KEY = "chipnuke.skin";
 
 // Runs before paint so the saved skin never flashes.
 export function SkinScript() {
-    const js = `try{var s=localStorage.getItem("${KEY}");if(s)document.documentElement.dataset.skin=s}catch(e){}`;
+    const js = `try{var s=localStorage.getItem("${KEY}");if(s==="wafer"||s==="fab"||s==="kapton")document.documentElement.dataset.skin=s}catch(e){}`;
     return <script dangerouslySetInnerHTML={{ __html: js }} />;
 }
 
 export function SkinPicker() {
-    const [skin, setSkin] = useState("mask");
-    useEffect(() => { setSkin(document.documentElement.dataset.skin || "mask"); }, []);
+    const [skin, setSkin] = useState("wafer");
+    useEffect(() => { setSkin(document.documentElement.dataset.skin || "wafer"); }, []);
     function pick(id: string) {
         setSkin(id);
         document.documentElement.dataset.skin = id;
@@ -37,7 +37,7 @@ export function SkinPicker() {
     );
 }
 
-// The one big toy: SCRAM toggles meltdown mode.
+// The one big toy: SCRAM floods the page with UV, like erasing an EPROM.
 export function Scram() {
     const [hot, setHot] = useState(false);
     function toggle() {
