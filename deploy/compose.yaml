@@ -3,7 +3,7 @@ name: chipnuke
 services:
   web:
     # CI replaces this only after a successful main-branch build and smoke check.
-    image: &image ghcr.io/biscuitnuke/chipnuke:sha-ce2dfa4ec990f3f9677044c4ab33baaee270f4ba-45288233358-1
+    image: &image ghcr.io/biscuitnuke/chipnuke:sha-998fa0fbf5122b2e78ff1356d6b053c3f1e5eb52-45289637148-1
     restart: unless-stopped
     user: "101:101"
     read_only: true
