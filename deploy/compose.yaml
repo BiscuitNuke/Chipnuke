@@ -1,0 +1,55 @@
+name: chipnuke
+
+services:
+  web:
+    # CI replaces this only after a successful main-branch build and smoke check.
+    image: &image ghcr.io/biscuitnuke/chipnuke:unpublished
+    restart: unless-stopped
+    user: "101:101"
+    read_only: true
+    tmpfs:
+      - /tmp:size=32m,mode=1777
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 100
+    mem_limit: 128m
+    depends_on: [api]
+    ports:
+      # Set to the host's private LAN address for Caddy. Firewall allows gateway only.
+      - "${CHIPNUKE_BIND_IP:-127.0.0.1}:${CHIPNUKE_PORT:-8089}:8080"
+    logging:
+      driver: json-file
+      options:
+        max-size: "5m"
+        max-file: "3"
+
+  # Hit counter and guestbook. Only nginx (web) talks to it. No published port.
+  api:
+    image: *image
+    restart: unless-stopped
+    user: "101:101"
+    read_only: true
+    entrypoint: ["python3", "-u", "/api/api.py"]
+    command: []
+    healthcheck:
+      test: ["CMD", "wget", "-q", "-O", "/dev/null", "http://127.0.0.1:8081/api/healthz"]
+      interval: 30s
+      timeout: 3s
+      retries: 3
+    environment:
+      GUESTBOOK_WEBHOOK: "${CHIPNUKE_GUESTBOOK_WEBHOOK:-}"
+      IP_SALT: "${CHIPNUKE_IP_SALT:-}"
+    volumes:
+      - data:/data
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    pids_limit: 50
+    mem_limit: 64m
+    logging:
+      driver: json-file
+      options:
+        max-size: "2m"
+        max-file: "2"
+
+volumes:
+  data:

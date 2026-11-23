@@ -1,0 +1,12 @@
+# Apply on the live gateway only after the internal service and TLS/DNS are ready.
+# Set CHIPNUKE_UPSTREAM in the gateway Caddy container environment, e.g. private-ip:8089.
+# Replace chipnuke.example with the real domain. This site is PUBLIC: do not import gate.
+chipnuke.example {
+    import common
+    reverse_proxy {$CHIPNUKE_UPSTREAM}
+}
+
+www.chipnuke.example {
+    import common
+    redir https://chipnuke.example{uri} permanent
+}
