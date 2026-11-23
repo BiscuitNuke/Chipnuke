@@ -7,6 +7,7 @@ import { SkinScript, SkinPicker, Scram } from "./components/skins";
 import Counter from "./components/counter";
 import Sparks from "./components/sparks";
 import Buttons from "./components/buttons";
+import Dip from "./components/dip";
 import { SITE_URL } from "@/lib/site";
 
 export const metadata: Metadata = {
@@ -36,7 +37,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 <div className="board">
                     <header className="masthead">
                         <Link href="/" className="lockup" aria-label="chipnuke home">
-                            <span className="wafer" aria-hidden="true"><img src="/brand/mark.svg" alt="" width={92} height={92} className="mark" /></span>
+                            <Dip />
                             <span className="wordmark">chip<b>nuke</b></span>
                         </Link>
                         <p className="tag">builds, breaks, prints, and car stuff. best viewed at 1024x768.</p>

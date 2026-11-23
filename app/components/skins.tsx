@@ -46,13 +46,13 @@ export function Scram() {
         const root = document.documentElement;
         root.classList.toggle("meltdown", next);
         const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const mark = document.querySelector(".masthead .mark");
+        const mark = document.querySelector(".masthead .dip");
         if (still) return;
         if (next) {
             gsap.fromTo(".board", { x: 0 }, { x: 6, duration: 0.05, repeat: 11, yoyo: true, ease: "none", clearProps: "x" });
-            if (mark) gsap.to(mark, { rotation: "+=720", duration: 1.6, ease: "power2.in" });
+            if (mark) gsap.fromTo(mark, { rotation: 0 }, { rotation: 3, duration: 0.06, repeat: 15, yoyo: true, ease: "none" });
         } else if (mark) {
-            gsap.to(mark, { rotation: 0, duration: 0.8, ease: "back.out(2)" });
+            gsap.to(mark, { rotation: 0, duration: 0.3 });
         }
     }
     return (
