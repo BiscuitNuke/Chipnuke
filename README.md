@@ -61,7 +61,7 @@ The flow is the same as KSWU:
 
 ## Guestbook moderation
 
-New entries are not public until you approve them. Run these commands on the Docker host:
+New entries are not public until you approve them. The Discord notification shows the approve and reject commands for each entry. Run them on the Docker host:
 
 ```sh
 docker exec chipnuke-api-1 python3 /api/api.py list

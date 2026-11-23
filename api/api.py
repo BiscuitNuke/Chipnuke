@@ -23,6 +23,7 @@ DB = os.environ.get("DB_PATH", "/data/chipnuke.db")
 PORT = int(os.environ.get("PORT", "8081"))
 WEBHOOK = os.environ.get("GUESTBOOK_WEBHOOK", "").strip()
 SALT = os.environ.get("IP_SALT", "") or "chipnuke"
+CONTAINER = os.environ.get("API_CONTAINER", "chipnuke-api-1")  # shown in Discord commands
 MAX_BODY = 4096
 RATE_LIMIT = 3          # guestbook posts per address
 RATE_WINDOW = 3600      # seconds
@@ -66,8 +67,10 @@ def notify(entry_id, name, message, website):
         return
     body = json.dumps({
         "username": "chipnuke guestbook",
-        "content": f"New guestbook entry #{entry_id} from **{name}**\n>>> {message}\n{website}\n"
-                   f"Approve: `python3 /api/api.py approve {entry_id}`",
+        "content": f"New guestbook entry #{entry_id} from **{name}**" + (f" ({website})" if website else "") + "\n"
+                   f"Approve: `docker exec {CONTAINER} python3 /api/api.py approve {entry_id}`\n"
+                   f"Reject: `docker exec {CONTAINER} python3 /api/api.py reject {entry_id}`\n"
+                   f">>> {message}",
         "allowed_mentions": {"parse": []},
     }).encode()
     req = urllib.request.Request(WEBHOOK, data=body, headers={"Content-Type": "application/json", "User-Agent": "chipnuke-api"})
