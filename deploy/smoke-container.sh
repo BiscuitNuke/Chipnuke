@@ -23,7 +23,7 @@ trap cleanup EXIT
 hardening=(--read-only --cap-drop ALL --security-opt no-new-privileges --pids-limit 100 --memory 128m)
 docker network create "$net" >/dev/null
 docker run -d --name "$api" --network "$net" --network-alias api "${hardening[@]}" \
-    --tmpfs /data:rw,size=8m,uid=101,gid=101 --entrypoint python3 "$image" -u /api/api.py >/dev/null
+    --tmpfs /data:rw,size=8m,uid=101,gid=101 -e ADMIN_TOKEN=smoke-token --entrypoint python3 "$image" -u /api/api.py >/dev/null
 docker run -d --name "$web" --network "$net" "${hardening[@]}" \
     --tmpfs /tmp:rw,size=32m,mode=1777 -p 127.0.0.1:8089:8080 "$image" >/dev/null
 
@@ -59,6 +59,17 @@ test "$(curl "${limits[@]}" -s -o /dev/null -w '%{http_code}' -X POST -H 'Conten
 curl "${limits[@]}" -s "$origin/api/guestbook" | grep -q '"entries": \[\]'
 docker exec "$api" python3 /api/api.py approve 1 | grep -q approved
 curl "${limits[@]}" -s "$origin/api/guestbook" | grep -q '"name": "smoke"'
+
+# Moderation API: token required, and refused for anything that came through the gateway.
+auth=(-H 'Authorization: Bearer smoke-token')
+test "$(curl "${limits[@]}" -s -X POST -H 'Content-Type: application/json' -o /dev/null -w '%{http_code}' \
+    -d '{"name":"second","message":"hello again"}' "$origin/api/guestbook")" = 202
+test "$(curl "${limits[@]}" -s -o /dev/null -w '%{http_code}' "$origin/api/admin/pending")" = 401
+test "$(curl "${limits[@]}" -s -o /dev/null -w '%{http_code}' "${auth[@]}" -H 'X-Forwarded-For: 203.0.113.9' \
+    "$origin/api/admin/pending")" = 404
+curl "${limits[@]}" -s "${auth[@]}" "$origin/api/admin/pending?after=1" | grep -q '"name": "second"'
+curl "${limits[@]}" -s -X POST "${auth[@]}" "$origin/api/admin/entries/2/approve" | grep -q '"action": "approve"'
+curl "${limits[@]}" -s "$origin/api/guestbook" | grep -q '"name": "second"'
 
 test "$(docker exec "$web" id -u)" != 0
 test "$(docker exec "$api" id -u)" != 0

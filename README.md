@@ -55,13 +55,26 @@ The flow is the same as KSWU:
 | `CHIPNUKE_PORT` | Published port. Default `8089`. |
 | `CHIPNUKE_GUESTBOOK_WEBHOOK` | Discord webhook URL. The api posts each new guestbook entry there. Empty turns notifications off. |
 | `CHIPNUKE_IP_SALT` | A random string. The api hashes visitor addresses with it. The api keeps no raw addresses. |
+| `CHIPNUKE_ADMIN_TOKEN` | A random string. Turns on the moderation API that HamBot uses. Use the same value as `CHIPNUKE_TOKEN` in the Raskal-QoL stack. Empty turns the API off. |
 
 4. Let only the Caddy gateway reach the published port.
 5. Add `deploy/Caddyfile.snippet` to the gateway and set `CHIPNUKE_UPSTREAM`. Point DNS for `chipnuke.com` and `www.chipnuke.com` at the gateway. The domain is also set in `lib/site.ts`.
 
 ## Guestbook moderation
 
-New entries are not public until you approve them. The Discord notification shows the approve and reject commands for each entry. Run them on the Docker host:
+New entries are not public until you approve them.
+
+### With HamBot
+
+HamBot checks for new entries every minute. It posts each entry in its `guestbook` topic with **Approve** and **Reject** buttons. `/guestbook pending` shows the entries that wait for a decision. Only HamBot admins can use the buttons.
+
+HamBot calls `/api/admin/` on the site port directly on the LAN, with `CHIPNUKE_ADMIN_TOKEN` as a Bearer token. nginx refuses `/api/admin/` for every request that has `X-Forwarded-For`. The gateway always adds that header, so the moderation API is not reachable from the internet.
+
+When HamBot handles the guestbook, leave `CHIPNUKE_GUESTBOOK_WEBHOOK` empty. If you set both, you get two notifications for each entry.
+
+### With commands
+
+The webhook notification shows the approve and reject commands for each entry. Run them on the Docker host:
 
 ```sh
 docker exec chipnuke-api-1 python3 /api/api.py list
