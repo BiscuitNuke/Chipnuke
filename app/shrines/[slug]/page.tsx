@@ -15,7 +15,7 @@ export default async function Shrine({ params }: { params: Promise<{ slug: strin
     if (!s) notFound();
     return (
         <article className="panel">
-            <p className="meta"><Link href="/shrines/">shrines</Link> / {s.part} / last touched <time dateTime={s.date}>{niceDate(s.date)}</time></p>
+            <p className="meta"><Link href="/shrines/">shrines</Link> / last touched <time dateTime={s.date}>{niceDate(s.date)}</time></p>
             <h1 className="title">{s.title}</h1>
             <div className="prose" dangerouslySetInnerHTML={{ __html: s.html }} />
             <p className="construction">this shrine is under construction</p>

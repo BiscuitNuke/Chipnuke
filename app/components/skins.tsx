@@ -1,6 +1,5 @@
 "use client";
 import { useEffect, useState } from "react";
-import gsap from "gsap";
 
 const SKINS = [
     { id: "wafer", label: "cleanroom" },
@@ -37,7 +36,7 @@ export function SkinPicker() {
     );
 }
 
-// The one big toy: SCRAM floods the page with UV, like erasing an EPROM.
+// The one toy: SCRAM floods the page with UV, like erasing an EPROM.
 export function Scram() {
     const [hot, setHot] = useState(false);
     function toggle() {
@@ -45,15 +44,6 @@ export function Scram() {
         setHot(next);
         const root = document.documentElement;
         root.classList.toggle("meltdown", next);
-        const still = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-        const mark = document.querySelector(".masthead .dip");
-        if (still) return;
-        if (next) {
-            gsap.fromTo(".board", { x: 0 }, { x: 6, duration: 0.05, repeat: 11, yoyo: true, ease: "none", clearProps: "x" });
-            if (mark) gsap.fromTo(mark, { rotation: 0 }, { rotation: 3, duration: 0.06, repeat: 15, yoyo: true, ease: "none" });
-        } else if (mark) {
-            gsap.to(mark, { rotation: 0, duration: 0.3 });
-        }
     }
     return (
         <button type="button" className="scram" aria-pressed={hot} onClick={toggle}>

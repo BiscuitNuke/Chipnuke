@@ -5,7 +5,7 @@ chipnuke is Kieran's personal site for builds, prints, car projects, and other n
 ## Stack
 
 - Next.js 16 static export (`output: "export"`, trailing slash). React 19. TypeScript 7. CI uses Node 24.
-- GSAP 3 for the SCRAM button, the draggable window, and the cursor sparks. No smooth scroll.
+- No animation library. SCRAM is a CSS palette swap.
 - Silkscreen pixel font (`@fontsource/silkscreen`) for headings. Verdana for body text.
 - `api/api.py`: hit counter and guestbook. Python standard library and SQLite.
 - Runtime: `nginxinc/nginx-unprivileged`, read-only root, all capabilities dropped. The api service uses the same image.
