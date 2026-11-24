@@ -7,7 +7,7 @@ export default function Posts() {
     const posts = getAll("posts");
     return (
         <section className="panel">
-            <h1 className="ref">U1 <span>all posts</span></h1>
+            <h1 className="ref">all posts</h1>
             <ul className="list">
                 {posts.map(p => (
                     <li key={p.slug}>

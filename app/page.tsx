@@ -1,6 +1,5 @@
 import Link from "next/link";
 import { getAll, getNow, niceDate } from "@/lib/content";
-import Win from "./components/window";
 
 export default function Home() {
     const posts = getAll("posts").slice(0, 5);
@@ -8,13 +7,12 @@ export default function Home() {
     const now = getNow();
     return (
         <>
-            <Win title="readme.txt">
-                <p>hi. this is the other site. the clean resume one lives somewhere else.</p>
-                <p>here it's half-finished builds, prints, car stuff, and whatever I fried this week.</p>
-            </Win>
+            <section className="panel intro">
+                <p>hi. this is the other site. the clean resume one lives somewhere else. here it&apos;s half-finished builds, prints, car stuff, and whatever I fried this week.</p>
+            </section>
 
             <section className="panel">
-                <h2 className="ref">U1 <span>latest posts</span></h2>
+                <h2 className="ref">latest posts</h2>
                 <ul className="list">
                     {posts.map(p => (
                         <li key={p.slug}>
@@ -27,12 +25,11 @@ export default function Home() {
             </section>
 
             <section className="panel">
-                <h2 className="ref">U2-U{shrines.length + 1} <span>shrines</span></h2>
+                <h2 className="ref">shrines</h2>
                 <ul className="chips">
                     {shrines.map(s => (
                         <li key={s.slug}>
                             <Link href={`/shrines/${s.slug}/`} className="ic">
-                                <span className="ic-ref">{s.part}</span>
                                 <span className="ic-name">{s.title}</span>
                             </Link>
                         </li>
@@ -41,7 +38,7 @@ export default function Home() {
             </section>
 
             <section className="panel">
-                <h2 className="ref">C1 <span>right now</span></h2>
+                <h2 className="ref">right now</h2>
                 <div className="prose" dangerouslySetInnerHTML={{ __html: now.html }} />
                 <p className="meta">updated {niceDate(now.updated)}. <Link href="/now/">more</Link></p>
             </section>

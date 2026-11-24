@@ -5,7 +5,6 @@ import "@fontsource/silkscreen/700.css";
 import "../global.css";
 import { SkinScript, SkinPicker, Scram } from "./components/skins";
 import Counter from "./components/counter";
-import Sparks from "./components/sparks";
 import Buttons from "./components/buttons";
 import Dip from "./components/dip";
 import { SITE_URL } from "@/lib/site";
@@ -44,32 +43,24 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <Scram />
                     </header>
 
-                    <div className="ticker" aria-hidden="true">
-                        <div className="ticker-run">
-                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the orange button</span>
-                            <span>welcome to chipnuke</span><span>sign the guestbook</span><span>this site is under construction forever</span><span>no cookies, no tracking, one hit counter</span><span>do not press the orange button</span>
-                        </div>
-                    </div>
-
                     <div className="columns">
                         <aside className="side">
                             <nav className="panel" aria-label="Site">
-                                <h2 className="ref">J1 <span>nav</span></h2>
+                                <h2 className="ref">menu</h2>
                                 <ul className="pins">
                                     {nav.map((n, i) => <li key={n.href}><span className="pin">{i + 1}</span><Link href={n.href}>{n.label}</Link></li>)}
                                 </ul>
                             </nav>
                             <section className="panel">
-                                <h2 className="ref">U9 <span>visitors</span></h2>
+                                <h2 className="ref">visitors</h2>
                                 <Counter />
                             </section>
                             <section className="panel">
-                                <h2 className="ref">SW1 <span>skin</span></h2>
+                                <h2 className="ref">skin</h2>
                                 <SkinPicker />
-                                <Sparks />
                             </section>
                             <section className="panel">
-                                <h2 className="ref">J2 <span>buttons</span></h2>
+                                <h2 className="ref">buttons</h2>
                                 <Buttons compact />
                             </section>
                         </aside>
