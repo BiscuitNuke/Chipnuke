@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { getAll } from "@/lib/content";
+import { getAll, niceDate } from "@/lib/content";
 
 export const metadata = { title: "shrines" };
 
@@ -12,7 +12,7 @@ export default function Shrines() {
             <ul className="chips big">
                 {shrines.map(s => (
                     <li key={s.slug}>
-                        <Link href={`/shrines/${s.slug}/`} className="ic">
+                        <Link href={`/shrines/${s.slug}/`} className="ic" data-profile={`SHRINE // ${s.part}|SUBJECT:${s.title}|LAST SEEN:${niceDate(s.date)}|TAGS:${s.tags.join(", ")}|STATUS:under construction`}>
                             <span className="ic-ref">{s.part}</span>
                             <span className="ic-name">{s.title}</span>
                             <span className="ic-sum">{s.summary}</span>

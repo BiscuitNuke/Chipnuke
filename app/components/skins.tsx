@@ -6,13 +6,14 @@ const SKINS = [
     { id: "wafer", label: "cleanroom" },
     { id: "fab", label: "fab at night" },
     { id: "kapton", label: "kapton tape" },
+    { id: "grid", label: "cn.OS" },
 ] as const;
 
 const KEY = "chipnuke.skin";
 
 // Runs before paint so the saved skin never flashes.
 export function SkinScript() {
-    const js = `try{var s=localStorage.getItem("${KEY}");if(s==="wafer"||s==="fab"||s==="kapton")document.documentElement.dataset.skin=s}catch(e){}`;
+    const js = `try{var s=localStorage.getItem("${KEY}");if(s==="wafer"||s==="fab"||s==="kapton"||s==="grid")document.documentElement.dataset.skin=s}catch(e){}`;
     return <script dangerouslySetInnerHTML={{ __html: js }} />;
 }
 
@@ -23,6 +24,7 @@ export function SkinPicker() {
         setSkin(id);
         document.documentElement.dataset.skin = id;
         try { localStorage.setItem(KEY, id); } catch { /* storage blocked */ }
+        if (id === "grid") window.dispatchEvent(new Event("cnos:boot"));
     }
     return (
         <fieldset className="skins">

@@ -10,7 +10,7 @@ export default function Posts() {
             <h1 className="ref">U1 <span>all posts</span></h1>
             <ul className="list">
                 {posts.map(p => (
-                    <li key={p.slug}>
+                    <li key={p.slug} data-profile={`POST // ${p.slug}|FILED:${niceDate(p.date)}|TAGS:${p.tags.join(", ") || "none"}|STATUS:live`}>
                         <time dateTime={p.date}>{niceDate(p.date)}</time>
                         <Link href={`/posts/${p.slug}/`}>{p.title}</Link>
                         <span className="sum">{p.summary}</span>

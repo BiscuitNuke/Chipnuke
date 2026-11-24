@@ -14,7 +14,7 @@ export default function Counter() {
     }, []);
     const digits = (n === null ? "------" : String(n).padStart(6, "0")).split("");
     return (
-        <p className="odo" aria-label={n === null ? "Visitor counter offline" : `${n} visitors`}>
+        <p className="odo" data-profile="NODE U9 // VISITORS|COUNTS:once per visitor per day|RAW IPS:none kept|TRACKERS:none" aria-label={n === null ? "Visitor counter offline" : `${n} visitors`}>
             {digits.map((d, i) => <span key={i}>{d}</span>)}
         </p>
     );

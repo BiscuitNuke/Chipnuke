@@ -17,7 +17,7 @@ export default function Home() {
                 <h2 className="ref">U1 <span>latest posts</span></h2>
                 <ul className="list">
                     {posts.map(p => (
-                        <li key={p.slug}>
+                        <li key={p.slug} data-profile={`POST // ${p.slug}|FILED:${niceDate(p.date)}|TAGS:${p.tags.join(", ") || "none"}|STATUS:live`}>
                             <time dateTime={p.date}>{niceDate(p.date)}</time>
                             <Link href={`/posts/${p.slug}/`}>{p.title}</Link>
                             <span className="sum">{p.summary}</span>
@@ -31,7 +31,7 @@ export default function Home() {
                 <ul className="chips">
                     {shrines.map(s => (
                         <li key={s.slug}>
-                            <Link href={`/shrines/${s.slug}/`} className="ic">
+                            <Link href={`/shrines/${s.slug}/`} className="ic" data-profile={`SHRINE // ${s.part}|SUBJECT:${s.title}|LAST SEEN:${niceDate(s.date)}|TAGS:${s.tags.join(", ")}|STATUS:under construction`}>
                                 <span className="ic-ref">{s.part}</span>
                                 <span className="ic-name">{s.title}</span>
                             </Link>

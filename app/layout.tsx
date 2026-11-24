@@ -6,6 +6,7 @@ import "../global.css";
 import { SkinScript, SkinPicker, Scram } from "./components/skins";
 import Counter from "./components/counter";
 import Sparks from "./components/sparks";
+import { Network, Handshake, Profiler } from "./components/cnos";
 import Buttons from "./components/buttons";
 import Dip from "./components/dip";
 import { SITE_URL } from "@/lib/site";
@@ -34,6 +35,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
             <head><SkinScript /></head>
             <body>
                 <a className="skip" href="#main">Skip to content</a>
+                <Network />
                 <div className="board">
                     <header className="masthead">
                         <Link href="/" className="lockup" aria-label="chipnuke home">
@@ -81,6 +83,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                         <p><img src="/brand/button-88x31.png" alt="chipnuke 88x31 button" width={88} height={31} className="px" /></p>
                     </footer>
                 </div>
+                <Handshake />
+                <Profiler />
             </body>
         </html>
     );
